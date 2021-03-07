@@ -1,7 +1,7 @@
 <template>
   <li :class="{ grudge: true, forgiven: grudge.forgiven }">
     {{ grudge.title }}
-    <input type="checkbox" name="forgive" id="forgive" v-model="forgive" />
+    <input type="checkbox" name="forgive" id="forgive" class="rounded" v-model="forgive" />
   </li>
 </template>
 
