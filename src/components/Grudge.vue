@@ -1,9 +1,9 @@
 <template>
-  <li :class="{ grudge: true, forgiven: grudge.forgiven }">
-    {{ grudge.title }}
-    <label :for="checkboxId">
-      Forgive
-      <input type="checkbox" :name="checkboxId" :id="checkboxId" class="rounded" v-model="forgive" />
+  <li :class="{ grudge: true, forgiven: forgiven }">
+    {{ title }} ({{ who }})
+    <label :for="checkboxId" class="cursor-pointer">
+      <input type="checkbox" :name="checkboxId" :id="checkboxId" class="rounded" v-model="forgiven" />
+      forgive (why ?)
     </label>
   </li>
 </template>
@@ -29,15 +29,16 @@ export default defineComponent({
     if (!store) return;
 
     const grudge = store.getters.grudgeById(props.grudgeId);
+    const { who, title } = grudge;
 
     const state = reactive({
-      forgive: false,
+      forgiven: false,
     });
 
     const checkboxId = computed(() => `forgive-${props.grudgeId}`);
 
     watch(
-      () => state.forgive,
+      () => state.forgiven,
       val => {
         const payload: ForgivePayload = { id: props.grudgeId, forgiven: val };
         store.dispatch(GRUDGE_FORGIVE, payload);
@@ -47,7 +48,8 @@ export default defineComponent({
     return {
       checkboxId,
       ...toRefs(state),
-      grudge,
+      who,
+      title,
     };
   },
 });

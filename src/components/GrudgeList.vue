@@ -2,15 +2,15 @@
   <ul class="grudge-list">
     <Grudge v-for="grudge in grudgeList" :grudgeId="grudge.id" :key="grudge.id" />
   </ul>
-  <grudge-add-button>
-    Add
-  </grudge-add-button>
+  <GrudgeAdd>
+    Remember
+  </GrudgeAdd>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, inject } from "vue";
-import GrudgeAddButton from "@/components/GrudgeAddButton.vue";
 import { StoreKey } from "@/store";
+import GrudgeAdd from "@/components/GrudgeAdd.vue";
 import Grudge from "@/components/Grudge.vue";
 
 export default defineComponent({
@@ -28,7 +28,7 @@ export default defineComponent({
   },
   components: {
     Grudge,
-    GrudgeAddButton,
+    GrudgeAdd,
   },
 });
 </script>
