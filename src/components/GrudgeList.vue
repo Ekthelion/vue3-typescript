@@ -1,6 +1,6 @@
 <template>
   <ul class="grudge-list">
-    <Grudge class="grudge" v-for="grudge in grudgeList" :grudgeId="grudge.id" :key="grudge.id" />
+    <Grudge v-for="grudge in grudgeList" :grudgeId="grudge.id" :key="grudge.id" />
   </ul>
   <grudge-add-button>
     Add
@@ -16,17 +16,17 @@ import Grudge from "@/components/Grudge.vue";
 export default defineComponent({
   setup() {
     const state = reactive({
-      grudgeList: store.getters.grudges
+      grudgeList: store.getters.grudges,
     });
 
     return {
-      ...toRefs(state)
+      ...toRefs(state),
     };
   },
   components: {
     Grudge,
-    GrudgeAddButton
-  }
+    GrudgeAddButton,
+  },
 });
 </script>
 

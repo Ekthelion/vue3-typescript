@@ -31,6 +31,6 @@ export default createStore({
   modules: {},
   getters: {
     grudges: state => state.grudgeList,
-    grudgeById: (_, getters) => (id: String): GrudgeType => getters.grudges.find((elem: GrudgeType) => elem.id === id),
+    grudgeById: (_, getters) => (id: string): GrudgeType => getters.grudges.find((elem: GrudgeType) => elem.id === id),
   },
 });

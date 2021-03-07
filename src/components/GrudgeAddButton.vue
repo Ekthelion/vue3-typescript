@@ -11,25 +11,26 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from "vue";
 import store from "@/store";
+import { generateId } from "@/utilities/helpers";
 import { GRUDGE_ADD } from "@/store/mutation-types";
 
 export default defineComponent({
   setup() {
     const state = reactive({
-      title: ""
+      title: "",
     });
 
     const addGrudge = () => {
       store.dispatch(GRUDGE_ADD, {
-        id: Math.floor(Math.random() * 100000),
-        title: state.title
+        id: generateId(),
+        title: state.title,
       });
       state.title = "";
     };
     return {
       ...toRefs(state),
-      addGrudge
+      addGrudge,
     };
-  }
+  },
 });
 </script>

@@ -1,12 +1,15 @@
 <template>
   <li :class="{ grudge: true, forgiven: grudge.forgiven }">
     {{ grudge.title }}
-    <input type="checkbox" name="forgive" id="forgive" class="rounded" v-model="forgive" />
+    <label :for="checkboxId">
+      Forgive
+      <input type="checkbox" :name="checkboxId" :id="checkboxId" class="rounded" v-model="forgive" />
+    </label>
   </li>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue";
+import { computed, defineComponent, reactive, toRefs, watch } from "vue";
 import store from "@/store";
 import { ForgivePayload } from "@/types";
 import { GRUDGE_FORGIVE } from "@/store/mutation-types";
@@ -21,13 +24,6 @@ export default defineComponent({
 
   methods: {},
 
-  watch: {
-    forgive(newVal) {
-      const payload: ForgivePayload = { id: this.$props.grudgeId, forgiven: newVal };
-      store.dispatch(GRUDGE_FORGIVE, payload);
-    },
-  },
-
   setup(props) {
     const grudge = store.getters.grudgeById(props.grudgeId);
 
@@ -35,7 +31,18 @@ export default defineComponent({
       forgive: false,
     });
 
+    const checkboxId = computed(() => `forgive-${props.grudgeId}`);
+
+    watch(
+      () => state.forgive,
+      val => {
+        const payload: ForgivePayload = { id: props.grudgeId, forgiven: val };
+        store.dispatch(GRUDGE_FORGIVE, payload);
+      },
+    );
+
     return {
+      checkboxId,
       ...toRefs(state),
       grudge,
     };
@@ -45,7 +52,8 @@ export default defineComponent({
 <style scoped>
 .grudge {
   padding: 0.5rem;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   list-style-type: none;
   border: 1px solid #880e4f;
   border-radius: 0.3rem;
