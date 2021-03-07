@@ -14,9 +14,9 @@ import { GRUDGE_FORGIVE } from "@/store/mutation-types";
 export default defineComponent({
   props: {
     grudgeId: {
-      type: Number,
-      required: true
-    }
+      type: String,
+      required: true,
+    },
   },
 
   methods: {},
@@ -25,21 +25,21 @@ export default defineComponent({
     forgive(newVal) {
       const payload: ForgivePayload = { id: this.$props.grudgeId, forgiven: newVal };
       store.dispatch(GRUDGE_FORGIVE, payload);
-    }
+    },
   },
 
   setup(props) {
     const grudge = store.getters.grudgeById(props.grudgeId);
 
     const state = reactive({
-      forgive: false
+      forgive: false,
     });
 
     return {
       ...toRefs(state),
-      grudge
+      grudge,
     };
-  }
+  },
 });
 </script>
 <style scoped>

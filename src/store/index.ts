@@ -4,7 +4,7 @@ import { GRUDGE_ADD, GRUDGE_FORGIVE } from "./mutation-types";
 
 export default createStore({
   state: {
-    grudgeList: [] as GrudgeType[]
+    grudgeList: [] as GrudgeType[],
   },
   mutations: {
     [GRUDGE_ADD](state, grudge: GrudgeType) {
@@ -18,7 +18,7 @@ export default createStore({
         }
         return grudge;
       });
-    }
+    },
   },
   actions: {
     [GRUDGE_ADD]({ commit }, grudge: GrudgeType) {
@@ -26,11 +26,11 @@ export default createStore({
     },
     [GRUDGE_FORGIVE]({ commit }, payload) {
       commit(GRUDGE_FORGIVE, payload);
-    }
+    },
   },
   modules: {},
   getters: {
     grudges: state => state.grudgeList,
-    grudgeById: (_, getters) => (id: number): GrudgeType => getters.grudges.find((elem: GrudgeType) => elem.id === id)
-  }
+    grudgeById: (_, getters) => (id: String): GrudgeType => getters.grudges.find((elem: GrudgeType) => elem.id === id),
+  },
 });
