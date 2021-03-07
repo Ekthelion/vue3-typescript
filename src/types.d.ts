@@ -1,10 +1,10 @@
 export interface GrudgeType {
-  id: number;
+  id: string;
   title: string;
   forgiven?: boolean;
   when?: number | undefined;
 }
 export interface ForgivePayload {
-  id: number;
+  id: string;
   forgiven: boolean;
 }
