@@ -8,13 +8,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue";
+import { defineComponent, reactive, toRefs, inject } from "vue";
 import GrudgeAddButton from "@/components/GrudgeAddButton.vue";
-import store from "@/store";
+import { StoreKey } from "@/store";
 import Grudge from "@/components/Grudge.vue";
 
 export default defineComponent({
   setup() {
+    const store = inject(StoreKey);
+    if (!store) return;
+
     const state = reactive({
       grudgeList: store.getters.grudges,
     });

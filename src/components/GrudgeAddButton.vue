@@ -9,13 +9,16 @@
   </button>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue";
-import store from "@/store";
+import { defineComponent, inject, reactive, toRefs } from "vue";
+import { StoreKey } from "@/store";
 import { generateId } from "@/utilities/helpers";
 import { GRUDGE_ADD } from "@/store/mutation-types";
 
 export default defineComponent({
   setup() {
+    const store = inject(StoreKey);
+    if (!store) return;
+
     const state = reactive({
       title: "",
     });

@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import { InjectionKey } from "vue";
 import { GrudgeType, ForgivePayload } from "@/types";
 import { GRUDGE_ADD, GRUDGE_FORGIVE } from "./mutation-types";
 
@@ -34,3 +35,6 @@ export default createStore({
     grudgeById: (_, getters) => (id: string): GrudgeType => getters.grudges.find((elem: GrudgeType) => elem.id === id),
   },
 });
+
+export type Store = ReturnType<typeof createStore>;
+export const StoreKey: InjectionKey<Store> = Symbol("Store");

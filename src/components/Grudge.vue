@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, toRefs, watch } from "vue";
-import store from "@/store";
+import { computed, defineComponent, inject, reactive, toRefs, watch } from "vue";
+import { StoreKey } from "@/store";
 import { ForgivePayload } from "@/types";
 import { GRUDGE_FORGIVE } from "@/store/mutation-types";
 
@@ -25,6 +25,9 @@ export default defineComponent({
   methods: {},
 
   setup(props) {
+    const store = inject(StoreKey);
+    if (!store) return;
+
     const grudge = store.getters.grudgeById(props.grudgeId);
 
     const state = reactive({
