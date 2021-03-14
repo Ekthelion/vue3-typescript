@@ -1,19 +1,13 @@
 <template>
-  <StoreProvider>
-    <div id="nav"><router-link to="/">Home</router-link></div>
-    <router-view />
-  </StoreProvider>
+  <div id="nav"><router-link to="/">Home</router-link></div>
+  <router-view />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import StoreProvider from "@/components/StoreProvider.vue";
 
 export default defineComponent({
   name: "App",
-  components: {
-    StoreProvider,
-  },
 });
 </script>
 

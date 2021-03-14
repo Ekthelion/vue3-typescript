@@ -1,6 +1,6 @@
 <template>
-  <input ref="whoInput" placeholder="Who again" name="who" type="text" v-model="who" class="rounded-l" />
-  <input red="titleInput" placeholder="What again" name="title" type="text" v-model="title" />
+  <input ref="whoInput" placeholder="Who again?" name="who" type="text" v-model="who" class="rounded-l" />
+  <input red="titleInput" placeholder="What again?" name="title" type="text" v-model="title" />
   <button
     class="bg-transparent hover:enabled:bg-blue-500 text-blue-700 font-semibold hover:enabled:text-white py-2 px-4
       border border-blue-500 hover:enabled:border-transparent rounded-r disabled:opacity-50 disabled:cursor-not-allowed"

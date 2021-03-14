@@ -1,17 +1,18 @@
 <template>
   <li :class="{ grudge: true, forgiven: forgiven }">
-    {{ title }} ({{ who }})
+    {{ grudge.title }} ({{ grudge.who }})
     <label :for="checkboxId" class="cursor-pointer">
       <input type="checkbox" :name="checkboxId" :id="checkboxId" class="rounded" v-model="forgiven" />
-      forgive (why ?)
+      forgive (why &#129318;)
     </label>
+    <span v-if="forgiven">{{ whenFormatted }}</span>
   </li>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, inject, reactive, toRefs, watch } from "vue";
 import { StoreKey } from "@/store";
-import { ForgivePayload } from "@/types";
+import { ForgivePayload, GrudgeType } from "@/types";
 import { GRUDGE_FORGIVE } from "@/store/mutation-types";
 
 export default defineComponent({
@@ -28,12 +29,12 @@ export default defineComponent({
     const store = inject(StoreKey);
     if (!store) return;
 
-    const grudge = store.getters.grudgeById(props.grudgeId);
-    const { who, title } = grudge;
-
     const state = reactive({
+      grudge: store.getters.grudgeById(props.grudgeId) as GrudgeType,
       forgiven: false,
     });
+
+    const whenFormatted = computed(() => new Date(state.grudge.when).toLocaleString());
 
     const checkboxId = computed(() => `forgive-${props.grudgeId}`);
 
@@ -48,8 +49,7 @@ export default defineComponent({
     return {
       checkboxId,
       ...toRefs(state),
-      who,
-      title,
+      whenFormatted,
     };
   },
 });
@@ -67,8 +67,5 @@ export default defineComponent({
 .grudge.forgiven {
   background-color: #f1f8e9;
   border-color: #66bb6a;
-}
-input {
-  cursor: pointer;
 }
 </style>

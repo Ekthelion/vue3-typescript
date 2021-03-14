@@ -3,7 +3,7 @@ export interface GrudgeType {
   title: string;
   who: string;
   forgiven?: boolean;
-  when?: number | undefined;
+  when: number;
 }
 export interface ForgivePayload {
   id: string;
