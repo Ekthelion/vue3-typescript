@@ -1,5 +1,5 @@
 <template>
-  <div id="nav"><router-link to="/">Home</router-link></div>
+  <div id="nav"><router-link to="/">Forgiven-not-forgotten</router-link></div>
   <router-view />
 </template>
 
