@@ -13,7 +13,6 @@
 <script lang="ts">
 import { computed, defineComponent, inject, reactive, toRefs, ref } from "vue";
 import { StoreKey } from "@/store";
-import { generateId } from "@/utilities/helpers";
 import { GRUDGE_ADD } from "@/store/mutation-types";
 
 export default defineComponent({
@@ -34,7 +33,6 @@ export default defineComponent({
     const addGrudge = () => {
       store
         .dispatch(GRUDGE_ADD, {
-          id: generateId(),
           title: state.title,
           who: state.who,
         })

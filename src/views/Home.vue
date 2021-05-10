@@ -1,8 +1,6 @@
 <template>
   <StoreProvider>
-    <div class="home">
-      <GrudgeList />
-    </div>
+    <GrudgeList />
   </StoreProvider>
 </template>
 

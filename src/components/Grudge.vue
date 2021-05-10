@@ -1,12 +1,12 @@
 <template>
   <li
-    class="shadow border-2 bg-white rounded grid grid-cols-1 gap-1 px-4 py-3 items-center justify-center hover:text-white subpixel-antialiased text-gray-700 relative"
+    class="shadow-md border-2 bg-white rounded grid grid-cols-1 gap-1 px-4 py-3 items-center justify-center hover:text-white subpixel-antialiased text-gray-700 relative"
     :class="stateStyle"
   >
     <span class="what font-semibold">
       {{ grudge.title }}
     </span>
-    <div class="who grid grid-cols-3 gap-3 w-full">
+    <div class="who grid grid-cols-3 gap-1 w-full">
       <label :for="checkboxId" class="cursor-pointer flex flex-auto items-center justify-center text-left">
         <input type="checkbox" :name="checkboxId" :id="checkboxId" class="rounded cursor-pointer mr-2" v-model="forgiven" />
         forgive
