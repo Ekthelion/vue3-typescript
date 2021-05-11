@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import { InjectionKey } from "vue";
 import { GrudgeType, ForgivePayload } from "@/types";
-import { GRUDGE_ADD, GRUDGE_FORGIVE, GRUDGES_GET, GRUDGES_SET, GRUDGE_GET } from "./mutation-types";
+import { GRUDGE_ADD, GRUDGE_FORGIVE, GRUDGES_GET, GRUDGES_SET, GRUDGE_GET, GRUDGE_DELETE } from "./mutation-types";
 import graphqlClient from "../client/graphql";
 import { gql } from "graphql-tag";
 
@@ -29,7 +29,7 @@ const grudgeByIdQuery = gql`
   }
 `;
 
-const AddGrudgeMutation = gql`
+const addGrudgeMutation = gql`
   mutation AddGrudge($input: AddGrudgeInput) {
     addGrudge(input: $input) {
       id
@@ -41,7 +41,7 @@ const AddGrudgeMutation = gql`
   }
 `;
 
-const ForgiveMutation = gql`
+const forgiveMutation = gql`
   mutation Forgive($input: ForgiveInput) {
     forgive(input: $input) {
       id
@@ -50,6 +50,12 @@ const ForgiveMutation = gql`
       when
       forgiven
     }
+  }
+`;
+
+const deleteMutation = gql`
+  mutation Delete($id: String) {
+    delete(id: $id)
   }
 `;
 
@@ -64,43 +70,54 @@ export default createStore({
     [GRUDGE_ADD](state, grudge: GrudgeType) {
       state.grudgeList.push({ ...grudge });
     },
-    [GRUDGE_FORGIVE](state, payload: ForgivePayload) {
-      state.grudgeList.map(grudge => {
+    [GRUDGE_FORGIVE](state, payload: GrudgeType) {
+      state.grudgeList = state.grudgeList.map(grudge => {
         if (grudge.id === payload.id) {
           grudge.forgiven = payload.forgiven;
-          grudge.when = payload.forgiven ? new Date().getTime() : 0;
+          grudge.when = payload.when;
         }
         return grudge;
       });
+    },
+    [GRUDGE_DELETE](state, id: string) {
+      console.log(GRUDGE_DELETE, id);
+      state.grudgeList = state.grudgeList.filter(g => g.id !== id);
     },
   },
   actions: {
     async [GRUDGE_ADD]({ commit }, grudge: GrudgeType) {
       const { data } = await graphqlClient.mutate({
-        mutation: AddGrudgeMutation,
+        mutation: addGrudgeMutation,
         variables: { input: grudge },
       });
       commit(GRUDGE_ADD, data.addGrudge);
     },
     async [GRUDGE_FORGIVE]({ commit }, payload) {
       const { data } = await graphqlClient.mutate({
-        mutation: ForgiveMutation,
+        mutation: forgiveMutation,
         variables: { input: payload },
       });
       commit(GRUDGE_FORGIVE, data.forgive);
     },
     async [GRUDGE_GET]({ commit }, id) {
-      const response = await graphqlClient.query({
+      const { data } = await graphqlClient.query({
         query: grudgeByIdQuery,
-        variables: { id: id },
+        variables: { id },
       });
-      commit(GRUDGE_GET, response.data.grudgeById);
+      commit(GRUDGE_GET, data.grudgeById);
     },
     async [GRUDGES_GET]({ commit }) {
-      const response = await graphqlClient.query({
+      const { data } = await graphqlClient.query({
         query: grudgesQuery,
       });
-      commit(GRUDGES_GET, response.data.grudges);
+      commit(GRUDGES_GET, data.grudges);
+    },
+    async [GRUDGE_DELETE]({ commit }, id) {
+      const { data } = await graphqlClient.mutate({
+        mutation: deleteMutation,
+        variables: { id },
+      });
+      commit(GRUDGE_DELETE, data.delete);
     },
   },
   modules: {},

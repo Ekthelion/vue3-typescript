@@ -30,6 +30,7 @@ const schema = gql`
   type Mutation {
     addGrudge(input: AddGrudgeInput): Grudge
     forgive(input: ForgiveInput): Grudge
+    delete(id: String): String
   }
 
   type Subscription {

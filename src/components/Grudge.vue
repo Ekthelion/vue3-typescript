@@ -3,7 +3,8 @@
     class="shadow-md border-2 bg-white rounded grid grid-cols-1 gap-1 px-4 py-3 items-center justify-center hover:text-white subpixel-antialiased text-gray-700 relative"
     :class="stateStyle"
   >
-    <span class="what font-semibold">
+    <span class="absolute top-0 right-2 cursor-pointer" v-if="forgiven" @click="forget">x</span>
+    <span class="what" :class="{ 'line-through': forgiven, 'font-semibold': !forgiven }">
       {{ grudge.title }}
     </span>
     <div class="who grid grid-cols-3 gap-1 w-full">
@@ -23,7 +24,7 @@
 import { computed, ComputedRef, defineComponent, inject, reactive, toRefs, watch } from "vue";
 import { StoreKey } from "@/store";
 import { ForgivePayload, GrudgeType } from "@/types";
-import { GRUDGE_FORGIVE } from "@/store/mutation-types";
+import { GRUDGE_FORGIVE, GRUDGE_DELETE } from "@/store/mutation-types";
 import { format } from "date-fns";
 
 export default defineComponent({
@@ -49,6 +50,10 @@ export default defineComponent({
       state.forgiven ? "bg-green-50 border-green-400 hover:bg-green-400" : "bg-red-50 border-red-400 hover:bg-red-400",
     );
 
+    const forget = () => {
+      store.dispatch(GRUDGE_DELETE, props.grudgeId);
+    };
+
     watch(
       () => state.forgiven,
       val => {
@@ -63,12 +68,13 @@ export default defineComponent({
       ...toRefs(state),
       whenFormatted,
       stateStyle,
+      forget,
     };
   },
 });
 </script>
 <style scoped>
-.grudge {
+/* .grudge {
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -80,5 +86,5 @@ export default defineComponent({
 .grudge.forgiven {
   background-color: #f1f8e9;
   border-color: #66bb6a;
-}
+} */
 </style>

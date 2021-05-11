@@ -4,10 +4,10 @@ const { generateId } = require("../utilities/helpers");
 const resolvers = {
   Query: {
     grudges: () => {
-      return data;
+      return data.grudges;
     },
     grudgeById: (_, { id }) => {
-      return data.find(d => id === d.id);
+      return data.grudges.find(d => id === d.id);
     },
   },
   Mutation: {
@@ -17,14 +17,18 @@ const resolvers = {
       newGrudge.when = 0;
       newGrudge.forgiven = false;
 
-      data.push(newGrudge);
+      data.grudges.push(newGrudge);
       return newGrudge;
     },
     forgive: (_, { input }) => {
-      const grudge = data.find(d => input.id === d.id);
+      const grudge = data.grudges.find(d => input.id === d.id);
       grudge.forgiven = input.forgiven;
       grudge.when = grudge.forgiven ? new Date().getTime() : 0;
       return grudge;
+    },
+    delete: (_, { id }) => {
+      data.grudges = data.grudges.filter(f => f.id !== id);
+      return id;
     },
   },
 };

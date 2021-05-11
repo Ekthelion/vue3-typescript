@@ -1,11 +1,11 @@
 <template>
+  <GrudgeAdd>
+    Remember
+  </GrudgeAdd>
   <div class="grudge-list">
     <ul class="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
       <Grudge v-for="grudge in grudgeList" :grudgeId="grudge.id" :key="grudge.id" />
     </ul>
-    <GrudgeAdd>
-      Remember
-    </GrudgeAdd>
   </div>
 </template>
 
@@ -24,12 +24,8 @@ export default defineComponent({
     store.dispatch(GRUDGES_GET);
 
     const grudgeList = computed(() => store.getters.grudges);
-    // const state = reactive({
-    //   grudgeList: store.getters.grudges,
-    // });
 
     return {
-      // ...toRefs(state),
       grudgeList,
     };
   },
