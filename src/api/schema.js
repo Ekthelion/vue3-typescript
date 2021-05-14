@@ -19,9 +19,6 @@ const schema = gql`
     who: String!
   }
 
-  """
-  Queries are defined as any other type
-  """
   type Query {
     grudges: [Grudge]
     grudgeById(id: String!): Grudge
@@ -34,8 +31,9 @@ const schema = gql`
   }
 
   type Subscription {
-    forgiven(id: String!): Grudge
-    grudgeAdded(id: String!): Grudge
+    forgiven: Grudge
+    added: Grudge
+    deleted: String
   }
 `;
 
